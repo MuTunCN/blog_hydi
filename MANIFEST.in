@@ -1,0 +1,3 @@
+graft blog_hydi/templates
+graft blog_hydi/static
+include blog_hydi/schema.sql

@@ -1,0 +1,9 @@
+MANIFEST.in
+blog_hydi/__init__.py
+blog_hydi/blog_hydi.py
+blog_hydi/schema.sql
+blog_hydi.egg-info/PKG-INFO
+blog_hydi.egg-info/SOURCES.txt
+blog_hydi.egg-info/dependency_links.txt
+blog_hydi.egg-info/requires.txt
+blog_hydi.egg-info/top_level.txt

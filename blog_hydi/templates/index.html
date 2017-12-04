@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block context %}
+    <div  class=" item" onclick="location.href='{{ url_for("post",id=i)}}'">
+        <div class="item_info">
+            {{ entries.update }} / {{ entries.tag }}
+        </div>
+        <div class="item_title">
+            {{ entries.title }}
+        </div>
+        <div class="item_info">
+            点击数:20/编辑
+        </div>
+    </div>
+        {% for i in range(10) %}
+    <div  class=" item" onclick="location.href='{{ url_for("post",id=i)}}'">
+        <div class="item_info">
+            2017.11.29/tag
+        </div>
+        <div class="item_title">
+            标题{{ i }}
+        </div>
+        <div class="item_info">
+            点击数:20/编辑
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
+{% block sider %}
+    <div class="edit_menu" >
+        添加 统计
+    </div>
+
+{% endblock %}

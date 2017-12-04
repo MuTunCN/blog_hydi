@@ -1,0 +1,1 @@
+from .blog_hydi import app

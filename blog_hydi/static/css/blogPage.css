@@ -1,0 +1,99 @@
+@font-face {
+    font-family: NotoSansSC-Thin;
+    src:url("../fonts/NotoSansSC-Thin.otf");
+}
+
+* {
+    font-family: NotoSansSC-Thin;
+}
+#header_ul li{
+    display:inline;
+    float:left;
+    margin-left: 4px;
+    margin-right: 2px;
+}
+
+#header_ul {
+    font-size: 30px;
+    list-style-type: none;
+    margin: 0;
+    padding-left: 5%;
+}
+#sign {
+
+    font-size: 27px;
+}
+#header {
+
+    padding-right: 5%;
+    height: 40px;
+    margin-bottom: 5px;
+}
+#login_btn {
+    float:right;
+}
+#context {
+    float:left;
+    margin-left: 5%;
+    width:72%;
+}
+#sider {
+    position: fixed;
+    right:0;
+    margin-right: 5%;
+    width:15%;
+    margin-left: 1%;
+    margin-top: 1%;
+}
+.border {
+    border: black 1px solid;
+}
+
+.item {
+    margin: 5px;
+    border-bottom: solid #dddddd 1px;
+}
+.item_info {
+    padding: 5px 10px 0px 20px;
+    font-size: 18px;
+    color: #bbbbbb;
+
+}
+.item_title {
+    font-size: 50px;
+    font-family: NotoSansSC-Thin;
+}
+.tags {
+    width:100%;
+}
+.tag {
+    display: inline;
+    margin-right: 4px;
+}
+.serachBar{
+    margin-bottom: 20px;
+}
+#title_edit {
+    font-size: 25px;
+    padding:8px;
+    display:block;
+    border:none;
+    border-bottom:1px solid #a4a4a4;
+    width:98%;
+    margin-bottom: 5%;
+    margin-top: 3%;
+}
+.edit_info {
+    font-size: 25px;
+}
+.input_info {
+    padding:8px;
+    display:block;
+    border:none;
+    border-bottom:1px solid #a4a4a4;
+    margin-bottom: 5%;
+}
+#edit_submit {
+    margin-top: 90%;
+    font-size: 70px;
+}

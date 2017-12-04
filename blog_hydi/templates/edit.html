@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/blogPage.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
+</head>
+<body>
+{#context#}
+<div id="context" >
+    <input name="title" id="title_edit" >
+
+
+    <textarea name="content" id="context_editor">
+        <p>This is some sample content.</p>
+    </textarea>
+    <script src="{{ url_for('static',filename='js/my_simplemde.js') }}"></script>
+    <script>
+	simplemde.element = document.getElementById("context_editor");
+    simplemde.value("This text will appear in the editor");
+    </script>
+</div>
+{#sider bar#}
+<div id="sider">
+    <div class="edit_info">
+        分类：
+    </div>
+    <input id="category" class="input_info">
+    <div class="edit_info ">
+        标签：
+    </div>
+    <input id="tags" class="input_info">
+    <div id="edit_submit">
+        保存
+    </div>
+</div>
+</body>
+</html>

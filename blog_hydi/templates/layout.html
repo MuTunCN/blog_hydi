@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/blogPage.css') }}">
+
+</head>
+<body>
+<div id="header">
+    <ul id="header_ul" >
+        <li>title</li>
+        <li>item1</li>
+        <li>item2</li>
+        <li>item3</li>
+    </ul>
+    <div id="login_btn">
+        login
+    </div>
+</div>
+<hr >
+<div id="context" >
+{% block context %}
+    {% endblock %}
+</div>
+<div id="sider">
+    <div class="serachBar">
+        搜索：<input id="search" >
+    </div>
+    {% block sider %}
+    {% endblock %}
+    <div class="tags ">
+    <div>标签：</div>
+         {% for foo in range(20) %}
+             <div class="tag">
+                tag({{ foo }})
+             </div>
+         {% endfor %}
+
+    </div>
+</div>
+</body>
+</html>
