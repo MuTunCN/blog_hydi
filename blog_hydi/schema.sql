@@ -5,22 +5,24 @@ create table entries (
   'text' text not null,
   'update' datetime not null,
   clicked INTEGER not null,
-  tag text not NULL ,
-  category text not NULL ,
-    FOREIGN key (tag) REFERENCES tag(tag)
-    FOREIGN KEY (category) REFERENCES category(category)
+  tag_id INTEGER not NULL ,
+  category_id INTEGER not NULL ,
+    FOREIGN key (tag_id) REFERENCES tag(id),
+    FOREIGN KEY (category_id) REFERENCES category(id)
 );
 
 DROP TABLE if EXISTS tag;
 create table tag (
+  id INTEGER PRIMARY KEY autoincrement,
   tag text not null
 );
 
 DROP TABLE if EXISTS category;
 create table category (
+  id INTEGER PRIMARY KEY autoincrement,
   category text not NULL
 );
 
-INSERT INTO tag VALUES ("tag_text");
-INSERT INTO category VALUES ("category_text");
-INSERT INTO entries VALUES (1, "title", "text", "2017.7.10", 30, "tag_text", "category_text");
+INSERT INTO tag VALUES (1,"tag_text");
+INSERT INTO category VALUES (1,"category_text");
+INSERT INTO entries VALUES (1,"title", "text", "2017.7.10", 30, 1, 1);

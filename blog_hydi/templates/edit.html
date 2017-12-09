@@ -10,6 +10,7 @@
 </head>
 <body>
 {#context#}
+<form method="post" action="{{ url_for('add') }}">
 <div id="context" >
     <input name="title" id="title_edit" >
 
@@ -28,14 +29,15 @@
     <div class="edit_info">
         分类：
     </div>
-    <input id="category" class="input_info">
+    <input name="category" class="input_info">
     <div class="edit_info ">
         标签：
     </div>
-    <input id="tags" class="input_info">
-    <div id="edit_submit">
+    <input name="tags" class="input_info">
+    <div id="edit_submit" onclick="javascript:document.forms[0].submit();">
         保存
     </div>
 </div>
+    </form>
 </body>
 </html>

@@ -2,6 +2,7 @@ import os
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__) # create the application instance :)
 app.config.from_object(__name__) # load config from this file , flaskr.py
@@ -12,9 +13,11 @@ app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'blog_hydi.db'),
     SECRET_KEY='development key',
     USERNAME='admin',
-    PASSWORD='default'
+    PASSWORD='default',
+    # SQLALCHEMY_DATABASE_URI='sqlite:////blog.hydi.db'
 ))
 app.config.from_envvar('BLOG_HYDI_SETTINGS', silent=True)
+
 
 
 def connect_db():
@@ -67,3 +70,15 @@ def post(id):
 
     return render_template("edit.html", id=id)
 
+
+@app.route('/e/a', methods=['post', 'get'])
+def add():
+    if not request.method == 'get':
+        return render_template("edit.html")
+    else:
+        title = request.form("title")
+        content = request.form("content")
+        category = request.form("category")
+        tags = request.form("tags")
+        db = get_db()
+        cur = db.cursor()

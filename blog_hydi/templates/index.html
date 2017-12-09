@@ -27,7 +27,9 @@
 {% endblock %}
 {% block sider %}
     <div class="edit_menu" >
-        添加 统计
+        <div class="add_btn btn" onclick="location.href='{{ url_for('add') }}'">
+            添加
+        </div>
     </div>
 
 {% endblock %}
