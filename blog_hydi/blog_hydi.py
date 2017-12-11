@@ -2,6 +2,7 @@ import os
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__) # create the application instance :)
@@ -14,10 +15,67 @@ app.config.update(dict(
     SECRET_KEY='development key',
     USERNAME='admin',
     PASSWORD='default',
-    # SQLALCHEMY_DATABASE_URI='sqlite:////blog.hydi.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS=True,
+    SQLALCHEMY_DATABASE_URI='sqlite:///blog_hydi.db'
 ))
 app.config.from_envvar('BLOG_HYDI_SETTINGS', silent=True)
+db = SQLAlchemy(app)
 
+tags = db.Table('tags',
+                db.Column('tag_id', db.Integer, db.ForeignKey('tag.id')),
+                db.Column('post_id', db.Integer, db.ForeignKey('post.id'))
+                )
+
+
+class Post(db.Model):
+    __tablename__ = "post"
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80))
+    body = db.Column(db.Text)
+    up_date = db.Column(db.Text)
+    clicked = db.Column(db.Integer)
+
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    category = db.relationship('Category',
+                               backref=db.backref('post', lazy='dynamic'))
+    tags = db.relationship('Tag', secondary=tags,
+                           backref=db.backref('post', lazy='dynamic'))
+
+    def __init__(self, title, body, category, clicked, up_date=None):
+        self.title = title
+        self.body = body
+        if up_date is None:
+            up_date = datetime.utcnow()
+        self.up_date = up_date
+        self.category = category
+        self.clicked = clicked
+
+    def __repr__(self):
+        return '<Post %r>' % self.title
+
+
+class Category(db.Model):
+    __tablename__ = "category"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return '<Category %r>' % self.name
+
+
+class Tag(db.Model):
+    __tablename__ = "tag"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return '<tag %r>' % self.name
 
 
 def connect_db():
@@ -59,9 +117,10 @@ def initdb_command():
 
 @app.route("/")
 def index():
-    db = get_db()
-    cur = db.execute("SELECT * FROM entries")
-    entries = cur.fetchone()
+    # db = get_db()
+    # cur = db.execute("SELECT * FROM entries")
+    # entries = cur.fetchone()
+    entries = Post.query.first()
     return render_template("index.html", entries=entries)
 
 
@@ -79,6 +138,16 @@ def add():
         title = request.form("title")
         content = request.form("content")
         category = request.form("category")
-        tags = request.form("tags")
-        db = get_db()
-        cur = db.cursor()
+        tags_web = request.form("tags")
+        tags_str = tags_web.split(",")
+        c = Category(category)
+        db.session.add(c)
+        p = Post(title, content, c)
+        for tag in tags_str:
+            t = Tag(tag)
+            db.session.add(t)
+            p.tags.append(t)
+        db.session.add(p)
+        db.session.commit()
+        flash("msg", str="save success")
+    render_template("edit.html")
