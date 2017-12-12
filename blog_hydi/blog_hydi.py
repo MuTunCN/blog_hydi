@@ -29,10 +29,10 @@ tags = db.Table('tags',
 
 class Post(db.Model):
     __tablename__ = "post"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(80))
     body = db.Column(db.Text)
-    up_date = db.Column(db.Text)
+    up_date = db.Column(db.DateTime)
     clicked = db.Column(db.Integer)
 
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
@@ -56,7 +56,7 @@ class Post(db.Model):
 
 class Category(db.Model):
     __tablename__ = "category"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50))
 
     def __init__(self, name):
@@ -68,7 +68,7 @@ class Category(db.Model):
 
 class Tag(db.Model):
     __tablename__ = "tag"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50))
 
     def __init__(self, name):
@@ -120,7 +120,8 @@ def index():
     # db = get_db()
     # cur = db.execute("SELECT * FROM entries")
     # entries = cur.fetchone()
-    entries = Post.query.first()
+    entries = Post.query.order_by(Post.up_date.desc())
+
     return render_template("index.html", entries=entries)
 
 
@@ -130,24 +131,21 @@ def post(id):
     return render_template("edit.html", id=id)
 
 
-@app.route('/e/a', methods=['post', 'get'])
+@app.route('/e/a', methods=['POST', 'GET'])
 def add():
-    if not request.method == 'get':
+    if request.method == 'GET':
         return render_template("edit.html")
     else:
-        title = request.form("title")
-        content = request.form("content")
-        category = request.form("category")
-        tags_web = request.form("tags")
+        title = request.form.get("title")
+        content = request.form.get("content")
+        category = request.form.get("category")
+        tags_web = request.form.get("tags")
         tags_str = tags_web.split(",")
         c = Category(category)
-        db.session.add(c)
-        p = Post(title, content, c)
+        p = Post(title, content, c, 0)
         for tag in tags_str:
             t = Tag(tag)
-            db.session.add(t)
             p.tags.append(t)
         db.session.add(p)
         db.session.commit()
-        flash("msg", str="save success")
-    render_template("edit.html")
+        return render_template("index.html")

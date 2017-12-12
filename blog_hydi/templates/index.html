@@ -1,29 +1,20 @@
 {% extends "layout.html" %}
 {% block context %}
+    {% for entrie in entries %}
+
     <div  class=" item" onclick="location.href='{{ url_for("post",id=i)}}'">
         <div class="item_info">
-            {{ entries.up_date }} / {{ entries.tag }}
+            {{ entrie.up_date }} / {{ entrie.category.name }}
         </div>
         <div class="item_title">
-            {{ entries.title }}
+            {{ entrie.title }}
         </div>
         <div class="item_info">
-            点击数:20/编辑
-        </div>
-    </div>
-        {% for i in range(10) %}
-    <div  class=" item" onclick="location.href='{{ url_for("post",id=i)}}'">
-        <div class="item_info">
-            2017.11.29/tag
-        </div>
-        <div class="item_title">
-            标题{{ i }}
-        </div>
-        <div class="item_info">
-            点击数:20/编辑
+            点击数:{{ entrie.clicked }}/编辑
         </div>
     </div>
     {% endfor %}
+
 {% endblock %}
 {% block sider %}
     <div class="edit_menu" >
@@ -31,5 +22,13 @@
             添加
         </div>
     </div>
+    <div class="tags ">
+    <div>标签：</div>
+         {% for foo in range(20) %}
+             <div class="tag">
+                tag({{ foo }})
+             </div>
+         {% endfor %}
 
+    </div>
 {% endblock %}
