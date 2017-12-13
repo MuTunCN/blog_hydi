@@ -8,17 +8,11 @@
 </head>
 <body>
 <div id="header">
-    <ul id="header_ul" >
-        <li>title</li>
-        <li>item1</li>
-        <li>item2</li>
-        <li>item3</li>
-    </ul>
-    <div id="login_btn">
-        login
-    </div>
+<a id="cate_all" class="active">主页</a>
+    {% block header %}
+        {% endblock %}
+
 </div>
-<hr >
 <div id="context" >
 {% block context %}
     {% endblock %}
@@ -27,6 +21,9 @@
     <div class="serachBar">
         搜索：<input id="search" >
     </div>
+<div class="login_btn btn">
+        登陆
+        </div>
     {% block sider %}
 
     {% endblock %}

@@ -121,8 +121,9 @@ def index():
     # cur = db.execute("SELECT * FROM entries")
     # entries = cur.fetchone()
     entries = Post.query.order_by(Post.up_date.desc())
-
-    return render_template("index.html", entries=entries)
+    show_tags = Tag.query.all()
+    cats = Category.query.all()
+    return render_template("index.html", entries=entries, show_tags=show_tags, cats=cats)
 
 
 @app.route('/p/<id>')

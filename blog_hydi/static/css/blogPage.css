@@ -6,33 +6,34 @@
 * {
     font-family: NotoSansSC-Thin;
 }
-#header_ul li{
-    display:inline;
-    float:left;
-    margin-left: 4px;
-    margin-right: 2px;
-}
 
-#header_ul {
-    font-size: 30px;
-    list-style-type: none;
-    margin: 0;
-    padding-left: 5%;
-}
 #sign {
 
     font-size: 27px;
 }
 #header {
-
-    padding-right: 5%;
-    height: 40px;
-    margin-bottom: 5px;
+    margin-left: 5%;
+  overflow: hidden;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
-#login_btn {
-    float:right;
+#header a {
+  float: left;
+  display: block;
+  color: #000000;
+  text-align: center;
+  padding: 10px 16px;
+  text-decoration: none;
+  font-size: 20px;
+
+}
+.active {
+    border-bottom: 2px solid #000000;
 }
 #context {
+    margin-top: 3%;
     float:left;
     margin-left: 5%;
     width:72%;
@@ -43,7 +44,7 @@
     margin-right: 5%;
     width:15%;
     margin-left: 1%;
-    margin-top: 1%;
+    margin-top: 5%;
 }
 .border {
     border: black 1px solid;
@@ -64,6 +65,7 @@
     font-family: NotoSansSC-Thin;
 }
 .tags {
+    margin-top: 20px;
     width:100%;
 }
 .tag {
@@ -96,4 +98,11 @@
 #edit_submit {
     margin-top: 90%;
     font-size: 70px;
+}
+.login_btn {
+    float: right;
+}
+.slash {
+
+    color: #e4e4e4;
 }

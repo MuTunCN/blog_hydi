@@ -1,4 +1,10 @@
 {% extends "layout.html" %}
+{% block header %}
+{% for cat in cats %}
+    <a id="{{ cat.name }}">{{ cat.name }}</a>
+
+    {% endfor %}
+{% endblock %}
 {% block context %}
     {% for entrie in entries %}
 
@@ -15,18 +21,33 @@
     </div>
     {% endfor %}
 
+    {% for i in range(10) %}
+       <div  class=" item" >
+        <div class="item_info">
+            sdfdsf
+        </div>
+        <div class="item_title">
+            sdfdsdfssdfdsfsdf
+        </div>
+        <div class="item_info">
+            点击数/编辑
+        </div>
+    </div>
+    {% endfor %}
+
 {% endblock %}
 {% block sider %}
     <div class="edit_menu" >
         <div class="add_btn btn" onclick="location.href='{{ url_for('add') }}'">
             添加
         </div>
+
     </div>
     <div class="tags ">
     <div>标签：</div>
-         {% for foo in range(20) %}
+         {% for tag in show_tags %}
              <div class="tag">
-                tag({{ foo }})
+                {{ tag.name }}({{ tag.post.count() }})
              </div>
          {% endfor %}
 
