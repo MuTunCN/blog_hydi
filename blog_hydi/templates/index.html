@@ -1,9 +1,17 @@
 {% extends "layout.html" %}
 {% block header %}
+    {% if request.path == '/' %}
+    <a id="cate_all" class="active" href="/">主页</a>
+        {% else %}
+        <a id="cate_all" class="" href="/">主页</a>
+    {% endif %}
 {% for cat in cats %}
-    <a id="{{ cat.name }}">{{ cat.name }}</a>
-
-    {% endfor %}
+    {% if request.path == '/s/category/'+cat.name %}
+    <a id="{{ cat.name }}" href="{{ url_for('search',item='category',name=cat.name) }}" class="active">{{ cat.name }}</a>
+    {% else %}
+    <a id="{{ cat.name }}" href="{{ url_for('search',item='category',name=cat.name) }}" >{{ cat.name }}</a>
+    {% endif %}
+{% endfor %}
 {% endblock %}
 {% block context %}
     {% for entrie in entries %}
@@ -14,6 +22,7 @@
         </div>
         <div class="item_title">
             {{ entrie.title }}
+            {{ request.path }}
         </div>
         <div class="item_info">
             点击数:{{ entrie.clicked }}/编辑
@@ -21,19 +30,7 @@
     </div>
     {% endfor %}
 
-    {% for i in range(10) %}
-       <div  class=" item" >
-        <div class="item_info">
-            sdfdsf
-        </div>
-        <div class="item_title">
-            sdfdsdfssdfdsfsdf
-        </div>
-        <div class="item_info">
-            点击数/编辑
-        </div>
-    </div>
-    {% endfor %}
+
 
 {% endblock %}
 {% block sider %}
@@ -47,7 +44,7 @@
     <div>标签：</div>
          {% for tag in show_tags %}
              <div class="tag">
-                {{ tag.name }}({{ tag.post.count() }})
+                <a href="{{ url_for('search',item='tag',name=tag.name) }}">{{ tag.name }}({{ tag.post.count() }})</a>
              </div>
          {% endfor %}
 
