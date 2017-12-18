@@ -1,30 +1,30 @@
-drop table if exists post;
-create table post (
-  id integer primary key autoincrement,
-  title text not null,
-  body text not null,
-  up_date datetime not null,
-  clicked INTEGER not null,
-  category_id INTEGER not NULL ,
-    FOREIGN KEY (category_id) REFERENCES category(id)
+DROP TABLE IF EXISTS POST;
+CREATE TABLE POST (
+  ID INTEGER PRIMARY KEY AUTOINCREMENT,
+  TITLE TEXT NOT NULL,
+  BODY TEXT NOT NULL,
+  UP_DATE DATETIME NOT NULL,
+  CLICKED INTEGER NOT NULL,
+  CATEGORY_ID INTEGER NOT NULL ,
+    FOREIGN KEY (CATEGORY_ID) REFERENCES CATEGORY(ID)
 );
 
-DROP TABLE if EXISTS tag;
-create table tag (
-  id INTEGER PRIMARY KEY autoincrement,
-  name text not null
+DROP TABLE IF EXISTS TAG;
+CREATE TABLE TAG (
+  ID INTEGER PRIMARY KEY AUTOINCREMENT,
+  NAME TEXT NOT NULL
 );
 
-DROP TABLE if EXISTS category;
-create table category (
-  id INTEGER PRIMARY KEY autoincrement,
-  name text not NULL
+DROP TABLE IF EXISTS CATEGORY;
+CREATE TABLE CATEGORY (
+  ID INTEGER PRIMARY KEY AUTOINCREMENT,
+  NAME TEXT NOT NULL
 );
 
-DROP TABLE if EXISTS tags;
-CREATE TABLE tags(
-  id INTEGER PRIMARY KEY AUTOINCREMENT ,
-  tag_id INTEGER  ,
-  post_id INTEGER
+DROP TABLE IF EXISTS TAGS;
+CREATE TABLE TAGS(
+  ID INTEGER PRIMARY KEY AUTOINCREMENT ,
+  TAG_ID INTEGER  ,
+  POST_ID INTEGER
 );
 

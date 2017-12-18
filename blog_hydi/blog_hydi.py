@@ -142,11 +142,32 @@ def add():
         category = request.form.get("category")
         tags_web = request.form.get("tags")
         tags_str = tags_web.split(",")
-        c = Category(category)
+        if Category.query.filter_by(name=category):
+            c = Category.query.filter_by(name=category)
+        else:
+            c = Category(category)
         p = Post(title, content, c, 0)
         for tag in tags_str:
-            t = Tag(tag)
+            if Tag.query.filter_by(name=tag):
+                t = Tag.query.filter_by(name=tag).first()
+            else:
+                t = Tag(tag)
             p.tags.append(t)
         db.session.add(p)
         db.session.commit()
-        return render_template("index.html")
+        return redirect("/")
+
+
+@app.route("/s/<item>/<name>")
+def search(item, name):
+    if item == 'tag':
+        t = Tag.query.filter_by(name=name).first()
+        entries = t.post
+    elif item == 'category':
+        c = Category.query.filter_by(name=name).first()
+        entries = c.post
+    elif item == 'post':
+        entries = Post.query.filter(Post.title.like("%"+name+"%")).all()
+    show_tags = Tag.query.all()
+    cats = Category.query.all()
+    return render_template('index.html', entries=entries, show_tags=show_tags, cats=cats)
