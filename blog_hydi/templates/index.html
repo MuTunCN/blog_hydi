@@ -34,12 +34,25 @@
 
 {% endblock %}
 {% block sider %}
+    {% if 'logged_in' in session %}
     <div class="edit_menu" >
         <div class="add_btn btn" onclick="location.href='{{ url_for('add') }}'">
             添加
         </div>
 
     </div>
+        {% else %}
+        <div class="login">
+        <form action="{{ url_for("login") }}" method="post">
+            用户名：<input name="username" >
+            密码：<input name="password">
+            <input type="submit" value='登陆'>
+            {% for message in get_flashed_messages() %}
+                <div class=flash>{{ message }}</div>
+            {% endfor %}
+        </form>
+        </div>
+    {% endif %}
     <div class="tags ">
     <div>标签：</div>
          {% for tag in show_tags %}

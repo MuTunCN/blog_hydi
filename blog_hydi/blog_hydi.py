@@ -13,8 +13,8 @@ app.config.update(dict(
     SEND_FILE_MAX_AGE_DEFAULT=0,
     DATABASE=os.path.join(app.root_path, 'blog_hydi.db'),
     SECRET_KEY='development key',
-    USERNAME='admin',
-    PASSWORD='default',
+    USERNAME='mutun',
+    PASSWORD='7895123',
     SQLALCHEMY_TRACK_MODIFICATIONS=True,
     SQLALCHEMY_DATABASE_URI='sqlite:///blog_hydi.db'
 ))
@@ -171,3 +171,23 @@ def search(item, name):
     show_tags = Tag.query.all()
     cats = Category.query.all()
     return render_template('index.html', entries=entries, show_tags=show_tags, cats=cats)
+
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        if request.form['username'] != app.config['USERNAME']:
+            flash('Invalid username')
+        elif request.form['password'] != app.config['PASSWORD']:
+            flash('Invalid password')
+        else:
+            session['logged_in'] = True
+            flash('You were logged in')
+    return redirect(url_for('index'))
+
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    flash('You were logged out')
+    return redirect(url_for('index'))
