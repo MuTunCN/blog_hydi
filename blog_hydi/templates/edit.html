@@ -20,33 +20,57 @@
 {#context#}
 <form method="post" action="{{ url_for('add') }}">
 <div id="context" >
-    <input name="title" id="title_edit" >
+        {% if post %}
+                <input name="title" id="title_edit" value="{{ post.title }}">
+        {% else %}
+            <input name="title" id="title_edit" >
+        {% endif %}
+
 
 
     <textarea name="content" id="context_editor">
-        <p>This is some sample content.</p>
-
+        {% if post %}
+            {{ post.body }}
+        {% else %}
+        请输入...
+        {% endif %}
     </textarea>
     <script src="{{ url_for('static',filename='js/my_simplemde.js') }}"></script>
-    <script>
-	simplemde.element = document.getElementById("context_editor");
-    simplemde.value("This text will appear in the editor");
-    </script>
+
 </div>
 {#sider bar#}
 <div id="sider">
     <div class="edit_info">
         分类：
     </div>
-    <input name="category" class="input_info">
+    {% if post %}
+        <input name="category" id="category_editor" class="input_info" value="{{ post.category.name }}">
+    {% else %}
+        <input name="category" id="category_editor" class="input_info">
+    {% endif %}
+
+
     <div class="edit_info ">
         标签：
     </div>
-    <input name="tags" class="input_info">
+    {% if post %}
+        <input name="tags" id="tags_editor" class="input_info" value="{% for tag in post.tags %}{{ tag.name }}{% if not loop.last %},{% endif %}{% endfor %}">
+    {% else %}
+        <input name="tags" id="tags_editor" class="input_info">
+    {% endif %}
+
     <div id="edit_submit" onclick="javascript:document.forms[0].submit();">
         保存
     </div>
 </div>
+{% if post %}
+    <input name="id" type="hidden" value="{{ post.id }}">
+    <input name="clicked" type="hidden" value="{{ post.clicked }}">
+{% else %}
+    <input name="id" type="hidden" value="-1">
+    <input name="clicked" type="hidden" value="-1">
+{% endif %}
     </form>
+
 </body>
 </html>

@@ -141,19 +141,29 @@ def add():
         content = request.form.get("content")
         category = request.form.get("category")
         tags_web = request.form.get("tags")
+        id = request.form.get("id")
+        clicked = request.form.get("clicked")
         tags_str = tags_web.split(",")
-        if Category.query.filter_by(name=category):
-            c = Category.query.filter_by(name=category)
+        if Category.query.filter_by(name=category).first():
+            c = Category.query.filter_by(name=category).first()
         else:
             c = Category(category)
-        p = Post(title, content, c, 0)
+        if id != '-1':
+            p = Post.query.filter_by(id=id).first()
+            p.title = title
+            p.content = content
+        else:
+            p = Post(title, content, c, 0)
         for tag in tags_str:
-            if Tag.query.filter_by(name=tag):
+            if Tag.query.filter_by(name=tag).first():
                 t = Tag.query.filter_by(name=tag).first()
             else:
                 t = Tag(tag)
             p.tags.append(t)
-        db.session.add(p)
+        if id != -1:
+            pass
+        else:
+            db.session.add(p)
         db.session.commit()
         return redirect("/")
 
@@ -191,3 +201,16 @@ def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
     return redirect(url_for('index'))
+
+
+@app.route("/remove/<id>")
+def remove(id):
+    p = Post.query.filter_by(id=id).first()
+    db.session.delete(p)
+    db.session.commit()
+    return redirect(url_for("index"))
+
+@app.route("/e/m/<id>")
+def edit(id):
+    post = Post.query.filter_by(id=id).first()
+    return render_template("edit.html", post=post)

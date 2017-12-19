@@ -25,7 +25,7 @@
             {{ request.path }}
         </div>
         <div class="item_info">
-            点击数:{{ entrie.clicked }}/编辑
+            点击数:{{ entrie.clicked }}/<a href="{{url_for('edit',id=entrie.id)}}">编辑</a>/<a href="{{url_for('remove',id=entrie.id)}}">删除</a>
         </div>
     </div>
     {% endfor %}

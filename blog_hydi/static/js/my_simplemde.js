@@ -1,10 +1,10 @@
  var simplemde = new SimpleMDE({
 	autofocus: true,
-	autosave: {
-		enabled: true,
-		uniqueId: "MyUniqueID",
-		delay: 1000,
-	},
+	// autosave: {
+	// 	enabled: true,
+	// 	uniqueId: "MyUniqueID",
+	// 	delay: 1000,
+	// },
 	blockStyles: {
 		bold: "__",
 		italic: "_"
@@ -13,7 +13,7 @@
 	forceSync: true,
 	hideIcons: ["guide", "heading"],
 	indentWithTabs: false,
-	initialValue: "Hello world!",
+	// initialValue: "Hello world!",
 	insertTexts: {
 		horizontalRule: ["", "\n\n-----\n\n"],
 		image: ["![](http://", ")"],
