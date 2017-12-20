@@ -16,17 +16,18 @@
 {% block context %}
     {% for entrie in entries %}
 
-    <div  class=" item" onclick="location.href='{{ url_for("post",id=i)}}'">
+    <div  class=" item" onclick="location.href='{{ url_for("post",id=entrie.id)}}'">
         <div class="item_info">
             {{ entrie.up_date }} / {{ entrie.category.name }}
         </div>
         <div class="item_title">
             {{ entrie.title }}
-            {{ request.path }}
         </div>
+        {% if 'logged_in' in session %}
         <div class="item_info">
             点击数:{{ entrie.clicked }}/<a href="{{url_for('edit',id=entrie.id)}}">编辑</a>/<a href="{{url_for('remove',id=entrie.id)}}">删除</a>
         </div>
+    {% endif %}
     </div>
     {% endfor %}
 
@@ -34,12 +35,18 @@
 
 {% endblock %}
 {% block sider %}
+    <div class="serachBar">
+        <input id="search" >
+        <button class="btn search_btn" onclick="location.href='/s/post/'+document.getElementById('search').value">搜索</button>
+    </div>
     {% if 'logged_in' in session %}
     <div class="edit_menu" >
         <div class="add_btn btn" onclick="location.href='{{ url_for('add') }}'">
             添加
         </div>
-
+        <div class="add_btn btn" onclick="location.href='{{ url_for('logout') }}'">
+            退出
+        </div>
     </div>
         {% else %}
         <div class="login">

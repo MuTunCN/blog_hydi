@@ -1,10 +1,22 @@
 {% extends "layout.html" %}
+{% block header %}
+        <a id="cate_all" class="" href="/">返回主页</a>
+{% endblock %}
 {% block sider %}
     <div class="context_tree">
 
     </div>
+    <div class="contact_bar">
+
+    </div>
 {% endblock %}
 {% block context %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 
+    <h1 class="show_title">{{ post.title }}</h1>
 
+    {% filter markdown %}
+{{ post.body }}
+{% endfilter %}
 {% endblock %}

@@ -4,12 +4,13 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from flaskext.markdown import Markdown
 
 app = Flask(__name__) # create the application instance :)
 app.config.from_object(__name__) # load config from this file , flaskr.py
 # Load default config and override config from an environment variable
+Markdown(app)
 app.config.update(dict(
-    DEBUG=True,
     SEND_FILE_MAX_AGE_DEFAULT=0,
     DATABASE=os.path.join(app.root_path, 'blog_hydi.db'),
     SECRET_KEY='development key',
@@ -52,6 +53,13 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post %r>' % self.title
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
 
 
 class Category(db.Model):
@@ -128,8 +136,8 @@ def index():
 
 @app.route('/p/<id>')
 def post(id):
-
-    return render_template("edit.html", id=id)
+    post = Post.query.filter_by(id=id).first()
+    return render_template("context.html", post=post)
 
 
 @app.route('/e/a', methods=['POST', 'GET'])
@@ -141,17 +149,20 @@ def add():
         content = request.form.get("content")
         category = request.form.get("category")
         tags_web = request.form.get("tags")
-        id = request.form.get("id")
-        clicked = request.form.get("clicked")
+        if request.form.get("id"):
+            id = request.form.get("id")
+            clicked = request.form.get("clicked")
         tags_str = tags_web.split(",")
         if Category.query.filter_by(name=category).first():
             c = Category.query.filter_by(name=category).first()
         else:
             c = Category(category)
-        if id != '-1':
+        if request.form.get("id"):
             p = Post.query.filter_by(id=id).first()
             p.title = title
-            p.content = content
+            p.body = content
+            p.category = c
+            p.tags = []
         else:
             p = Post(title, content, c, 0)
         for tag in tags_str:
@@ -160,11 +171,10 @@ def add():
             else:
                 t = Tag(tag)
             p.tags.append(t)
-        if id != -1:
-            pass
+        if request.form.get("id"):
+            p.update()
         else:
-            db.session.add(p)
-        db.session.commit()
+            p.save()
         return redirect("/")
 
 
