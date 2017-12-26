@@ -13,7 +13,6 @@
 	forceSync: true,
 	hideIcons: ["guide", "heading"],
 	indentWithTabs: false,
-	// initialValue: "Hello world!",
 	insertTexts: {
 		horizontalRule: ["", "\n\n-----\n\n"],
 		image: ["![](http://", ")"],
@@ -26,7 +25,7 @@
 		strikethrough: false,
 		underscoresBreakWords: true,
 	},
-	placeholder: "Type here...",
+	placeholder: "在这输入...",
 	previewRender: function(plainText) {
 		return customMarkdownParser(plainText); // Returns HTML from a custom parser
 	},

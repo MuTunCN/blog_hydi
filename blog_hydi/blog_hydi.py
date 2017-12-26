@@ -66,25 +66,46 @@ class Category(db.Model):
     __tablename__ = "category"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50))
+    up_date = db.Column(db.DateTime)
 
-    def __init__(self, name):
+    def __init__(self, name, up_date=None):
         self.name = name
+        if up_date is None:
+            up_date = datetime.utcnow()
+        self.up_date = up_date
 
     def __repr__(self):
         return '<Category %r>' % self.name
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
 
 
 class Tag(db.Model):
     __tablename__ = "tag"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50))
+    up_date = db.Column(db.DateTime)
 
-    def __init__(self, name):
+    def __init__(self, name, up_date=None):
         self.name = name
+        if up_date is None:
+            up_date = datetime.utcnow()
+        self.up_date = up_date
 
     def __repr__(self):
         return '<tag %r>' % self.name
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
 
 def connect_db():
     """Connects to the specific database."""
@@ -224,3 +245,47 @@ def remove(id):
 def edit(id):
     post = Post.query.filter_by(id=id).first()
     return render_template("edit.html", post=post)
+
+
+@app.route("/edit/<name>")
+def edit_other(name, operate=None, target=None, data=None):
+    if name == "category":
+        cates = Category.query.all()
+        return render_template("index.html", cates=cates)
+    elif name == "tag":
+        tags = Tag.query.all()
+        return render_template("index.html", tags=tags)
+
+
+
+
+@app.route("/edit/tag/update/<target>/<data>")
+def tag_update(target, data):
+    tag = Tag.query.filter_by(id=int(target)).first()
+    tag.name = data
+    tag.update()
+    return redirect(url_for("edit_other",name="tag"))
+
+
+@app.route("/edit/tag/delete/<target>")
+def tag_delete(target):
+    tag = Tag.query.filter_by(id=int(target)).first()
+    db.session.delete(tag)
+    db.session.commit()
+    return redirect(url_for("edit_other",name="tag"))
+
+
+@app.route("/edit/category/update/<target>/<data>")
+def cate_update(target, data):
+    category = Category.query.filter_by(id=int(target)).first()
+    category.name = data
+    category.update()
+    return redirect(url_for("edit_other",name="category"))
+
+
+@app.route("/edit/category/delete/<target>")
+def cate_delete(target):
+    category = Category.query.filter_by(id=int(target)).first()
+    db.session.delete(category)
+    db.session.commit()
+    return redirect(url_for("edit_other",name="category"))
