@@ -4,12 +4,11 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from flaskext.markdown import Markdown
+import markdown
 
 app = Flask(__name__) # create the application instance :)
 app.config.from_object(__name__) # load config from this file , flaskr.py
 # Load default config and override config from an environment variable
-Markdown(app)
 app.config.update(dict(
     SEND_FILE_MAX_AGE_DEFAULT=0,
     DATABASE=os.path.join(app.root_path, 'blog_hydi.db'),
@@ -158,6 +157,13 @@ def index():
 @app.route('/p/<id>')
 def post(id):
     post = Post.query.filter_by(id=id).first()
+    post.clicked = post.clicked + 1
+    post.update()
+    post.body = markdown.markdown(post.body, extensions=[
+        'markdown.extensions.extra',
+        'markdown.extensions.codehilite',
+        'markdown.extensions.toc',
+    ])
     return render_template("context.html", post=post)
 
 
@@ -255,8 +261,6 @@ def edit_other(name, operate=None, target=None, data=None):
     elif name == "tag":
         tags = Tag.query.all()
         return render_template("index.html", tags=tags)
-
-
 
 
 @app.route("/edit/tag/update/<target>/<data>")

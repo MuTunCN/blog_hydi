@@ -11,12 +11,10 @@
     </div>
 {% endblock %}
 {% block context %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/github.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/github-markdown.css') }}"/>
     <h1 class="show_title">{{ post.title }}</h1>
-
-    {% filter markdown %}
-{{ post.body }}
-{% endfilter %}
+<div class="body">
+{{ post.body|safe }}
+</div>
 {% endblock %}
